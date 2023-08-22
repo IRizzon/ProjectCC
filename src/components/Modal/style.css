@@ -1,0 +1,46 @@
+.modal_contain{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 5%;
+}
+
+.options{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    height: 90%;
+}
+
+.options button{
+    background-color: #0950CD;
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    border: #FFF solid 0.1rem;
+    border-radius: 15px;
+    font-size: 2rem;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+.options button:hover{
+    opacity: 0.8;
+    background-color: #04165D;
+}
+
+.close{
+    border: none;
+    background-color: #FFF;
+    color: #0950CD;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.close:hover{
+    color: #04165D;
+}
