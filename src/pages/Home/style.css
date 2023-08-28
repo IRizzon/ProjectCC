@@ -14,7 +14,7 @@ h1{
     margin-bottom: 25px;
 }
 
-form{
+.form1{
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -22,10 +22,20 @@ form{
     background-color: #C2E7F0;
     box-shadow: #0000009c -2px 5px 15px;
     width: 1200px;
-    border-radius: 25px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
     padding-bottom: 5rem;
 }
 
+.help{
+    color: #FFF;
+    width: 15px;
+}
+
+.help2{
+    color: #0950CD;
+    width: 15px;
+}
 
 .intro{
     background-color: #0950CD;
@@ -134,24 +144,25 @@ form{
 }
 
 .prest_main{
-    width: 28.5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.prest_contain{
-    width: 50%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .container{
-    width: 28.5%;
+    margin-top: 1rem;
+    width: 100%;
     display: flex;
-    margin-left: 3%;
+    justify-content: center;
     gap: 2%;
+}
+
+.prest_contain{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .jbar{
@@ -180,6 +191,7 @@ form{
     border: 0;
     border-radius: 20px;
     font-size: 1.2rem;
+    text-align: right;
 }
 
 .bank_value{
@@ -232,7 +244,6 @@ form{
     flex-direction: column;
     align-items: center;
     margin: 0 0 2rem 2rem;
-
 }
 
 .remove{
@@ -258,13 +269,252 @@ form{
     padding: 1rem;
     font-size: 1.5rem;
     border-radius: 15px;
-    box-shadow: #0000007c 0 0 10px;
     cursor: pointer;
-    transform: translateY(-5rem);
+    transform: translateY(-5.5rem);
     transition: all 0.5s;
 }
 
 .add_input:hover{
     opacity: 0.8;
-    transform: translateY(-5rem) scale(1.2);
+    transform: translateY(-5.5rem) scale(1.2);
+}
+
+.form2{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #C2E7F0;
+    box-shadow: #0000009c -2px 5px 15px;
+    width: 1200px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding-bottom: 2rem;
+    transform: translateY(-20%);
+}
+
+.calc_contain{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #C2E7F0;
+    transform: translateY(-0.6rem);
+}
+
+.calc_contain::after{
+    content:'';
+    border-radius: 1rem;
+    background-color: #0950CD;
+    width: 35%;
+    height: 5px;
+    top: -0.5rem;
+    left: 5%;
+    position: absolute;
+}
+
+.calc_contain::before{
+    content:'';
+    border-radius: 1rem;
+    background-color: #0950CD;
+    width: 35%;
+    height: 5px;
+    top: -0.5rem;
+    right: 5%;
+    position: absolute;
+}
+
+.calc_button{
+    margin: 1rem;
+    border: 0;
+    background-color: #0950CD;
+    color: #FFF;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 15px;
+    box-shadow: #0000007c 0 0 10px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.calc_button:hover{
+    opacity: 0.8;
+    transform: scale(1.2);
+}
+
+.prop_result{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+}
+
+.allot_contain{
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.allot_result{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+.finance{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+
+@media screen and (max-width: 1250px) {
+    
+    .form1, .form2{
+        width: 95vw;
+        padding-bottom: 3rem;
+    }
+
+    .add_input{
+        transform: translateY(-4rem);
+    }
+
+    .add_input:hover{
+        transform: translateY(-4rem) scale(1.1);
+    }
+
+    .calc_contain::after{
+        top: 0;
+    }
+    
+    .calc_contain::before{
+        top: 0;
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+
+    .calc_contain::after{
+        width: 27.5%;
+        left: 7.5%;
+    }
+    
+    .calc_contain::before{
+        width: 27.5%;
+        right: 7.5%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    
+    main{
+        transform: translateY(0px)
+    }
+
+    h1{
+        font-size: 1.5rem;
+    }
+    
+    .help, .help2{
+        width: 10px;
+    }
+
+    .title{
+        font-size: 0.8rem;
+        font-weight: 100;
+    }
+
+    .intro_box{
+        padding: 1rem;
+        width: 50%;
+    }
+
+    .bar{
+        width: 100%;
+    }
+
+    .bar span, .bar input{
+        font-size: 0.9rem;
+        padding: 3px;
+    }
+
+    
+    .subtitle{
+        font-size: 0.7rem;
+    }
+
+    .date_box{
+        font-size: 0.8rem;
+        width: 30%;
+        margin-left: 1rem;
+    }
+
+    .date_box input{
+        font-size: 0.7rem;
+        width: 80%;
+        margin-top: 0.4rem;
+    }
+
+    .jbar, .jbar input{
+        font-size: 0.8rem;
+    }
+
+    .jbar span{
+        padding: 2px;
+    }
+
+    .add_input{
+        transform: translateY(-3rem);
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .add_input:hover{
+        transform: translateY(-3rem) scale(1.1);
+    }
+
+    .form2{
+        transform: translateY(-12%);
+    }
+
+    .calc_contain{
+        transform: translateY(-0.8rem);
+    }
+
+    .calc_button{
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .if_contain{
+        margin: 0 0 1rem 0.5rem;
+    }
+
+    .box_main{
+        margin: 0 0 1rem 0.5rem;
+    }
+
+    .remove{
+        margin: 5px;
+        font-size: 0.5rem;
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+
+    .ent_value{
+        margin-top: 1rem;
+    }
+
+    .bank_value{
+        margin-bottom: 1rem;
+    }
+
+    .allot_result{
+        width: 40%;
+    }
 }

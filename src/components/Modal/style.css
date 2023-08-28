@@ -5,6 +5,12 @@
     gap: 5%;
 }
 
+.icon{
+    color: #FFF;
+    width: 100px;
+    height: 80px;
+}
+
 .options{
     display: grid;
     grid-template-columns: 2fr 2fr;
@@ -43,4 +49,23 @@
 
 .close:hover{
     color: #04165D;
+}
+
+@media screen and (max-width: 600px) {
+
+    .icon{
+        width: 40px;
+        height: 50px;
+    }
+
+    .options{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .options button{
+        height: 50%;
+        font-size: 1.5rem;
+        padding: 0.2rem 1rem;
+    }
 }

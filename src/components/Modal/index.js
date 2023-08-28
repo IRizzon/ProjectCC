@@ -16,7 +16,7 @@ const SelectModal = ({isOpen, onRequestClose, handleOptionSelection }) =>{
             },
             content: {
                 width: '30%', 
-                height: '40%',
+                height: '50%',
                 border: "none",
                 borderRadius: "25px",
                 top: '50%',
@@ -27,20 +27,20 @@ const SelectModal = ({isOpen, onRequestClose, handleOptionSelection }) =>{
         >   
             <div className="modal_contain">
                 <div className="options">
-                    <button onClick={() => handleOptionSelection('Balão')}>
-                        <BsBalloon color="#FFF" size={'4rem'}/>
-                        <span>Balão</span>
-                    </button>
                     <button onClick={() => handleOptionSelection('FGTS')}>
-                        <BsBank color="FFF" size={'4rem'}/>
+                        <BsBank className="icon"/>
                         <span>FGTS</span>
                     </button>
                     <button onClick={() => handleOptionSelection('Subsídio')}>
-                        <BsDatabaseAdd color="FFF" size={'4rem'}/>
+                        <BsDatabaseAdd className="icon"/>
                         <span>Subsídio</span>
                     </button>
+                    <button onClick={() => handleOptionSelection('Balão')}>
+                        <BsBalloon className="icon"/>
+                        <span>Balão</span>
+                    </button>
                     <button onClick={() => handleOptionSelection('Permuta')}>
-                        <BsHouseAdd color="FFF" size={'4rem'}/>
+                        <BsHouseAdd className="icon"/>
                         <span>Permuta</span>
                     </button>
                 </div>
