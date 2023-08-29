@@ -14,18 +14,21 @@ function Home(){
     const [selectedOption, setSelectedOption] = useState(null);
     const [addedSections, setAddedSections] = useState([]);
     const [input, setInput] = useState({
-        rendaCliente: '',
-        valorImovel:'',
-        valorEntrada:'',
-        parcelaEntrada:'',
-        financiamento:'',
-        prestCaixa:'',
-        txJuros: '',
+        rendaCliente: '0,00',
+        valorImovel: '0,00',
+        valorEntrada: '0,00',
+        parcelaEntrada: '0,00',
+        financiamento: '0,00',
+        prestCaixa: '0,00',
+        txJuros: '0,00',
         month: '',
-        INCC: '2,37'
+        INCC: '0,10',
     });
     const [ proposal, setProposal] = useState('');
     const [ totalAllotment, setTotalAllotment] = useState('');
+    const [ totalCommit, setTotalCommit] = useState('');
+    const [useINCC, setUseINCC] = useState(false);
+    const [useTxJuros, setUseTxJuros] = useState(false);
 
     //Input Format
 
@@ -33,7 +36,7 @@ function Home(){
     const handleInputChangeInitial = (fieldName) => (e) => {
         e.preventDefault();
         const inputValue = e.target.value;
-      
+        
         if (fieldName === 'month') {
             const numericValue = inputValue.replace(/[^0-9]/g, '');
             setInput(prevInput => ({
@@ -51,7 +54,7 @@ function Home(){
             if (formattedValue.length < 3) {
                 formattedValue = formattedValue.padStart(3, '0');
             }
-            formattedValue = formattedValue.slice(0, -2) + '.' + formattedValue.slice(-2);
+            formattedValue = formattedValue.slice(0,-2) + '.' + formattedValue.slice(-2);
     
             setInput(prevInput => ({
                 ...prevInput,
@@ -74,7 +77,7 @@ function Home(){
         if (formattedValue.length < 3) {
             formattedValue = formattedValue.padStart(3, '0');
         }
-        formattedValue = formattedValue.slice(0, -2) + '.' + formattedValue.slice(-2);
+        formattedValue = (formattedValue.slice(0, -2) + '.' + formattedValue.slice(-2)) / 10;
               
         const updatedSections = [...addedSections];
         updatedSections[index][fieldName] = (formattedValue !== '' ? parseFloat(formattedValue).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '');
@@ -98,7 +101,7 @@ function Home(){
         setAddedSections([...addedSections, { 
             type: option, 
             description: '',
-            value: '', 
+            value: '0,00', 
             date: '' 
         }]);
         closeModal();
@@ -138,7 +141,7 @@ function Home(){
                         </div>
                         <div className='bar'>
                             <span>R$</span>
-                            <input type='text' value={section.value} onChange={handleInputChange('value', index)}/>
+                            <input type='text' value={section.value} onChange={(e) => {handleInputChange('value', index); calculateDif(e)}}/>
                         </div>
                     </div>
                 </div>
@@ -166,11 +169,66 @@ function Home(){
     //Operations
 
     const parseNumber = (number) => {
+        if (number === '') {
+            return 0;
+        }
         return parseFloat(number.replace(/[^0-9]/g, '').replace(',', '.'));
     };
 
+    //Diference Proposal
+
+    
+    const calculateDif = (e) => {
+        e.preventDefault();
+
+        let totalDif = 0
+
+        totalDif += parseNumber(input.valorImovel) / 10;
+        totalDif -= parseNumber(input.financiamento) / 100;
+        totalDif -= parseNumber(input.valorEntrada) / 100;
+        totalDif -= parseNumber(input.parcelaEntrada) / 100;
+    
+        addedSections.forEach(section => {
+            if (section.value !== ''){
+                console.log("section.value:", section.value);
+                totalDif -= parseNumber(section.value) / 100;
+            }
+        });
+
+        
+
+        setInput(prevInput => ({
+            ...prevInput,
+            dif: totalDif.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+        }));
+    }
+    
+
     const calculateTotal = (e) => {
         e.preventDefault();
+
+        let totalDif = 0
+
+        totalDif += parseNumber(input.valorImovel);
+        totalDif -= parseNumber(input.financiamento);
+        totalDif -= parseNumber(input.valorEntrada);
+        totalDif -= parseNumber(input.parcelaEntrada);
+    
+        addedSections.forEach(section => {
+            if (section.value !== ''){
+                console.log("section.value:", section.value);
+                totalDif -= parseNumber(section.value);
+            }
+        });
+
+        totalDif /= 100
+
+        setInput(prevInput => ({
+            ...prevInput,
+            dif: totalDif.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+        }));
     
         //Total Proposal
     
@@ -195,19 +253,59 @@ function Home(){
         //Total Allotment
     
         let totalAllot = 0;
+        let allotCommit = 0;
     
         let juros = parseNumber(input.txJuros) / 10000;
-        let entry = parseNumber(input.parcelaEntrada);
+        let entry = parseNumber(input.parcelaEntrada) / 100;
         let month = input.month;
-        let INCC = input.INCC;
-    
+        let INCC = parseNumber(input.INCC) / 10000;
+        
+        let allot = entry / month
+
         let potencia = Math.pow(1 + juros, month)
         totalAllot = entry * (juros * potencia) / (potencia - 1);
-        totalAllot /= 100
+        
+        let totalAllotINCC = (entry + entry * INCC) / month;
+
+        let allotINCC = totalAllotINCC - allot
+        let totalINCCJures = totalAllot + allotINCC
+        
+        if (useINCC === true && useTxJuros === true){
+            allotCommit = totalINCCJures;
+            const formattedAllot = totalINCCJures.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            setTotalAllotment(formattedAllot);
+        } 
+        else if (useINCC === false && useTxJuros === true) {
+            allotCommit = totalAllot;
+            const formattedAllot = totalAllot.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            setTotalAllotment(formattedAllot);
+        } 
+        else if (useINCC === false && useTxJuros === false) {
+            allotCommit = allot;
+            const formattedAllot = allot.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            setTotalAllotment(formattedAllot);
+        } 
+        else {
+            allotCommit = totalAllotINCC;
+            const formattedAllot = totalAllotINCC.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            setTotalAllotment(formattedAllot);
+        };
+
+        //Commitment Finance
+
+        let totalCommit = 0
+
+        let caixaCommit = parseNumber(input.prestCaixa) / 100;
+        let financeCommit = parseNumber(input.rendaCliente) /100;
+        
+
+        totalCommit = financeCommit - (caixaCommit + allotCommit)
+        let totalFinanceCommit = -(totalCommit * 100) / financeCommit
+        totalFinanceCommit += 100
     
+        const formattedCommit = totalFinanceCommit.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        setTotalCommit(formattedCommit);
     
-        const formattedTotalAllot = totalAllot.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        setTotalAllotment(formattedTotalAllot);
     };
       
 
@@ -226,7 +324,7 @@ function Home(){
                             </div>
                             <div className='bar'>
                                 <span>R$</span>
-                                <input type="text" value={input.rendaCliente} onChange={handleInputChangeInitial('rendaCliente')} />
+                                <input type="text" value={input.rendaCliente} onChange={(e) => { handleInputChangeInitial('rendaCliente')(e); calculateDif(e); }} />
                             </div>
                         </div>
                         <div className='intro_box'>
@@ -236,8 +334,12 @@ function Home(){
                             </div>
                             <div className='bar'>
                                 <span>R$</span>
-                                <input type="text" value={input.valorImovel} onChange={handleInputChangeInitial('valorImovel')} />
+                                <input type="text" value={input.valorImovel} onChange={(e) => { handleInputChangeInitial('valorImovel')(e); calculateDif(e); }}/>
                             </div>
+                            <span className='dif'>
+                                Diferença: R$
+                                <input className='dif' type='text' value={input.dif} disabled />
+                            </span>
                         </div>
                     </section>
                     <section className='ent_value'>
@@ -248,7 +350,7 @@ function Home(){
                             </div>
                             <div className='bar'>
                                 <span>R$</span>
-                                <input type="text" value={input.valorEntrada} onChange={handleInputChangeInitial('valorEntrada')} />
+                                <input type="text" value={input.valorEntrada} onChange={(e) => { handleInputChangeInitial('valorEntrada')(e); calculateDif(e); }} />
                             </div>
                         </div>
                         <div className='date_box'>
@@ -264,7 +366,7 @@ function Home(){
                             </div>
                             <div className='bar'>
                                 <span>R$</span>
-                                <input type="text" value={input.parcelaEntrada} onChange={handleInputChangeInitial('parcelaEntrada')} />
+                                <input type="text" value={input.parcelaEntrada} onChange={(e) => { handleInputChangeInitial('parcelaEntrada')(e); calculateDif(e); }} />
                             </div>
                         </div>
                         <div className='date_box'>
@@ -277,9 +379,10 @@ function Home(){
                             <div className='subtitle'>
                                 <label>INCC</label>
                                 <FaQuestionCircle className='help2'/>
+                                <input className='check' type='checkbox' checked={useINCC} onChange={() => setUseINCC(!useINCC)} />
                             </div>
-                            <div className='jbar'>
-                                <input type="text" value={input.INCC} onChange={handleInputChangeInitial('INCC')}/>
+                            <div className={`jbar ${useINCC ? '' : 'input-disabled'}`}>
+                                <input type="text" value={input.INCC} disabled={!useINCC}/>
                                 <span>%</span>
                                 </div>
                             </div>
@@ -287,9 +390,10 @@ function Home(){
                             <div className='subtitle'>
                                 <label>Tx.Juros</label>
                                 <FaQuestionCircle className='help2'/>
+                                <input className='check' type='checkbox' checked={useTxJuros} onChange={() => setUseTxJuros(!useTxJuros)} />
                             </div>
-                            <div className='jbar'>
-                                <input type="text" value={input.txJuros} onChange={handleInputChangeInitial('txJuros')} />
+                            <div className={`jbar ${useTxJuros ? '' : 'input-disabled'}`}>
+                                <input type="text" value={input.txJuros} disabled={!useTxJuros} onChange={handleInputChangeInitial('txJuros')} />
                                 <span>%</span>
                             </div>
                         </div>
@@ -311,7 +415,7 @@ function Home(){
                             </div>
                             <div className='bar'>
                                 <span>R$</span>
-                                <input type="text" value={input.financiamento} onChange={handleInputChangeInitial('financiamento')} />
+                                <input type="text" value={input.financiamento} onChange={(e) => { handleInputChangeInitial('financiamento')(e); calculateDif(e); }} />
                             </div>
                         </div>
                         <div className='bank_contain'>
@@ -365,23 +469,13 @@ function Home(){
                             </div>
                             <div className='allot_result'>
                                 <div className='subtitle'>
-                                    <label>Parcela com INCC</label>
+                                    <label>Comprometimento</label>
                                     <FaQuestionCircle className='help2'/>
                                 </div>
-                                <div className='bar'>
-                                    <span>R$</span>
-                                    <input type='text' ></input>
+                                <div className='jbar'>
+                                    <input type='text' value={totalCommit}></input>
+                                    <span>%</span>
                                 </div>
-                            </div>
-                        </div>
-                        <div className='finance'>
-                             <div className='subtitle'>
-                                <label>Comprometimento</label>
-                                <FaQuestionCircle className='help2'/>
-                            </div>
-                            <div className='jbar'>
-                                <input type='text' ></input>
-                                <span>%</span>
                             </div>
                         </div>
                     </section>
