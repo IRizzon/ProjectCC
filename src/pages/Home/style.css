@@ -27,14 +27,43 @@ h1{
     padding-bottom: 5rem;
 }
 
+.help_container{
+    display: inline-block;
+    position: relative;
+}
+
+.help_contain{
+    background-color: #04165D;
+    box-shadow: 0 0 5px #04165D;
+    border-radius: 15px;
+    color: #FFF;
+    font-size: 0.8rem;
+    font-weight: lighter;
+    padding: 10px;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    width: auto;
+}
+
+.recalc{
+    color: #FFF;
+    width: 15px;
+    cursor: pointer;
+}
+
 .help{
     color: #FFF;
     width: 15px;
+    cursor: help;
 }
 
 .help2{
     color: #0950CD;
     width: 15px;
+    cursor: help;
 }
 
 .intro{
@@ -57,12 +86,28 @@ h1{
 }
 
 .dif{
+    width: 100%;
+    display: flex;
     font-size: 1rem;
+}
+
+.dif span{
+    width: 30% ;
+}
+
+.dif input{
+    width: 90%;
     border: none;
     background-color: #0950CD;
     color: #FFF;
-    margin-left: 0.2rem;
+    font-size: 1rem;
 }
+
+.refresh{
+    border: none;
+    background-color: #0950CD;
+}
+
 
 .title{
     font-size: 1.5rem;
@@ -383,6 +428,22 @@ h1{
 
 @media screen and (max-width: 1250px) {
     
+    .help_contain{
+        font-size: 0.7rem;
+        text-align: center;
+        padding: 8px;
+        width: 120px;
+        white-space: normal;
+    }
+    
+    .dif span{
+        width: 45%;
+    }
+
+    .dif input{
+        width: 60%;
+    }
+
     .form1, .form2{
         width: 95vw;
         padding-bottom: 3rem;
@@ -404,10 +465,13 @@ h1{
         top: 0;
     }
 
+    .form2{
+        transform: translateY(-17%);
+    }
+
 }
 
 @media screen and (max-width: 1000px) {
-
     .calc_contain::after{
         width: 27.5%;
         left: 7.5%;
@@ -441,6 +505,20 @@ h1{
     .intro_box{
         padding: 1rem;
         width: 50%;
+    }
+
+    .dif{
+        font-size: 0.7rem;
+    }
+
+    .dif span{
+        margin-top: 1px;
+        width: 40%;
+    }
+
+    .dif input{
+        width: 60%;
+        font-size: 0.7rem;
     }
 
     .bar{
