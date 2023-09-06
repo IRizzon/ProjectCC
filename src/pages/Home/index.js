@@ -266,41 +266,7 @@ function Home(){
         }
         return parseFloat(number.replace(/[^0-9]/g, '').replace(',', '.'));
     };
-
-    //Diference Proposal
-
     
-    const CalculateDif =  (e) => {
-        e.preventDefault();
-        
-        const financiamento = parseNumber(input.financiamento);
-        const valorEntrada = parseNumber(input.valorEntrada);
-        const parcelaEntrada = parseNumber(input.parcelaEntrada);
-        const valorImovel = parseNumber(input.valorImovel);
-
-        let totalDif = valorImovel;
-        totalDif -= financiamento;
-        totalDif -= valorEntrada;
-        totalDif -= parcelaEntrada;
-
-        addedSections.forEach(section => {
-            if (section.value !== ''){
-                console.log("section.value:", section.value);
-                totalDif -= parseNumber(section.value);
-            }
-        });
-
-        totalDif /=100
-
-        setInput(prevInput => ({
-            ...prevInput,
-            dif: totalDif.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-        }));
-
-    };
-    
-    
-
     const calculateTotal = (e) => {
         e.preventDefault();
 
@@ -431,11 +397,6 @@ function Home(){
                             <div className='bar'>
                                 <span>R$</span>
                                 <input type="text" value={input.valorImovel} onChange={handleInputChangeInitial('valorImovel')}/>
-                            </div>
-                            <div className='dif'>
-                                <span>Diferença: R$</span>
-                                <input type='text' value={input.dif} disabled />
-                                <button className='refresh' onClick={CalculateDif}><FaRedo className='recalc'/></button>
                             </div>
                         </div>
                     </section>

@@ -85,30 +85,6 @@ h1{
     align-items: center;
 }
 
-.dif{
-    width: 100%;
-    display: flex;
-    font-size: 1rem;
-}
-
-.dif span{
-    width: 30% ;
-}
-
-.dif input{
-    width: 90%;
-    border: none;
-    background-color: #0950CD;
-    color: #FFF;
-    font-size: 1rem;
-}
-
-.refresh{
-    border: none;
-    background-color: #0950CD;
-}
-
-
 .title{
     font-size: 1.5rem;
     font-weight: 600;
@@ -436,14 +412,6 @@ h1{
         white-space: normal;
     }
     
-    .dif span{
-        width: 45%;
-    }
-
-    .dif input{
-        width: 60%;
-    }
-
     .form1, .form2{
         width: 95vw;
         padding-bottom: 3rem;
@@ -505,20 +473,6 @@ h1{
     .intro_box{
         padding: 1rem;
         width: 50%;
-    }
-
-    .dif{
-        font-size: 0.7rem;
-    }
-
-    .dif span{
-        margin-top: 1px;
-        width: 40%;
-    }
-
-    .dif input{
-        width: 60%;
-        font-size: 0.7rem;
     }
 
     .bar{
