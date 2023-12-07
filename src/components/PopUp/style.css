@@ -1,0 +1,31 @@
+.BackPopUp{
+    position: absolute;
+    height: 150%;
+    width: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.PopUp{
+    background-color: #FFF;
+    width: 30%; 
+    border: none;
+    border-radius: 25px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.link{
+    margin: 1em;
+}
+
+.PopUp button{
+    margin: 2%;
+    margin-left: 50%;
+    width: 30%;
+}

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { FaQuestionCircle } from 'react-icons/fa'
 
-
-import Header from '../../components/Header'
-import SelectModal from '../../components/Modal'
+import PopUp from '../../components/PopUp/PopUp';
+import SelectModal from '../../components/Modal';
 import AdsComponent from '../../components/AdSense';
 
 import './style.css'
@@ -352,15 +351,11 @@ function Home(){
 
 
     return(
+        
         <div>
-            <>
-                <AdsComponent dataAdSlot='8869491768' />
-            </>
-            <Header/>
+            
+            <AdsComponent/>
             <main>
-                <>
-                    <AdsComponent dataAdSlot='4880229575'/>
-                </>
                 <h1>Calculadora Corretor</h1>
                 <form className='form1'>
                     <section className='intro'>
@@ -662,13 +657,8 @@ function Home(){
                         </div>
                     </section>
                 </section>
-                <>
-                    <AdsComponent dataAdSlot='4880229575'/>
-                </>
             </main>
-            <>
-                <AdsComponent dataAdSlot='8869491768' />
-            </>
+            <AdsComponent/>
         </div>
     )
 }
